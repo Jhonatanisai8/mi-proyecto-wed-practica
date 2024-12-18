@@ -11,23 +11,23 @@
         <div class="container mt-5">
             <h1 class="text-center mb-4">Formulario de Registro de Datos</h1>
 
-            <form action="action" class="row g-3" method="post" >
+            <form action="/Mi-app-wed/registroDatos" class="row g-3" method="post">
                 <!-- Nombre -->
                 <div class="col-md-6">
-                    <label for="nombreusuario" class="form-label">Nombre Completo:</label>
-                    <input type="text" name="nombreusuario" id="nombreusuario" class="form-control">
+                    <label for="nombre-usuario" class="form-label">Nombre Completo:</label>
+                    <input type="text" name="nombre-usuario" id="nombre-usuario" class="form-control">
                 </div>
 
                 <!-- Apellidos -->
                 <div class="col-md-6">
-                    <label for="apellidosusuario" class="form-label">Apellidos:</label>
-                    <input type="text" name="apellidosusuario" id="apellidosusuario" class="form-control">
+                    <label for="apellidos-usuario" class="form-label">Apellidos:</label>
+                    <input type="text" name="apellidos-usuario" id="apellidos-usuario" class="form-control">
                 </div>
 
                 <!-- Fecha de Nacimiento -->
                 <div class="col-md-6">
-                    <label for="fechanacimiento" class="form-label">Fecha de Nacimiento:</label>
-                    <input type="date" name="fechanacimiento" id="fechanacimiento" class="form-control">
+                    <label for="fecha-nacimiento" class="form-label">Fecha de Nacimiento:</label>
+                    <input type="date" name="fecha-nacimiento" id="fecha-nacimiento" class="form-control">
                 </div>
 
                 <!-- Lugar de Nacimiento -->
@@ -47,12 +47,12 @@
                 <div class="col-md-6">
                     <label class="form-label">Género:</label>
                     <div class="form-check">
-                        <input type="radio"  name="genero" value="M" class="form-check-input">
+                        <input type="radio" name="genero" value="M" class="form-check-input">
                         <label class="form-check-label">Masculino</label>
                     </div>
                     <div class="form-check">
-                        <input type="radio"  name="genero" value="F" class="form-check-input">
-                        <label  class="form-check-label">Femenino</label>
+                        <input type="radio" name="genero" value="F" class="form-check-input">
+                        <label class="form-check-label">Femenino</label>
                     </div>
                 </div>
 
@@ -64,6 +64,23 @@
                         <option value="Casado">Casado</option>
                         <option value="Soltero">Soltero</option>
                     </select>
+                </div>
+
+                <!-- Nivel de estudios -->
+                <div class="col-md-12">
+                    <label class="form-label">Nivel de Estudios:</label>
+                    <div class="form-check">
+                        <input type="checkbox" name="nivel-estudios" value="Nivel Primario." class="form-check-input">
+                        <label class="form-check-label">Nivel Primario</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="nivel-estudios" value="Nivel Secundario." class="form-check-input">
+                        <label class="form-check-label">Nivel Secundario</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="nivel-estudios" value="Nivel Superior." class="form-check-input">
+                        <label class="form-check-label">Nivel Superior</label>
+                    </div>
                 </div>
 
                 <!-- Teléfono -->
@@ -86,7 +103,7 @@
 
                 <!-- Botón de Enviar -->
                 <div class="col-12 text-center">
-                    <input type="submit" value = "Enviar" class="btn btn-primary">
+                    <input type="submit" value="Enviar" class="btn btn-primary">
                 </div>
             </form>
         </div>
