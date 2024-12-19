@@ -25,7 +25,7 @@ public class RegistroServlet
         String genero = request.getParameter("genero");
         String edadCivil = request.getParameter("estado-civil");
         String nivelEstudios[] = request.getParameterValues("nivel-estudios");
-        Integer numeroTelefono = Integer.parseInt(request.getParameter("telefono"));
+        Integer numeroTelefono = null;
         String email = request.getParameter("email");
         String direccionDomicilio = request.getParameter("direccion-domicilio");
         //creamos un mapa para agregar los errores
@@ -34,11 +34,14 @@ public class RegistroServlet
         if (nombres == null || nombres.isBlank()) {
             errores.put("nombre-usuario", "Los nombres son obligatorios.");
         }
-        if (nombres == null || nombres.isBlank()) {
+        if (apellidos == null || apellidos.isBlank()) {
             errores.put("apellidos-usuario", "Los Apellidos son obligatorios.");
         }
         if (fechaNacimiento == null || fechaNacimiento.after(new Date())) {
             errores.put("fecha-nacimiento", "La fecha de nacimiento es obligatoria y debe ser antes a la fecha de hoy.");
+        }
+        if (lugarNacimiento == null || lugarNacimiento.isBlank()) {
+            errores.put("lugar-nacimiento", "El lugar de nacimiento es requerido.");
         }
         if (genero == null || genero.isBlank()) {
             errores.put("genero", "El genero es requerido.");
@@ -47,17 +50,22 @@ public class RegistroServlet
             errores.put("estado-civil", "El estado civil es requerido.");
         }
         if (nivelEstudios == null || nivelEstudios.length == 0) {
-            errores.put("nivel-estudios", "El email es requerido.");
+            errores.put("nivel-estudios", "Los niveles de estudio son requeridos.");
         }
-        if (numeroTelefono == null || numeroTelefono <= 999999999 || numeroTelefono <= 0) {
-            errores.put("telefono", "El Telefono es requerido.");
-
+        boolean convertirNumeroExcepcion = false;
+        try {
+            numeroTelefono = Integer.valueOf(request.getParameter("telefono"));
+        } catch (Exception e) {
+            convertirNumeroExcepcion = true;
+        }
+        if (convertirNumeroExcepcion == true || numeroTelefono == null ||  String.valueOf(numeroTelefono).length() != 9|| numeroTelefono <= 0) {
+            errores.put("telefono", "El Telefono es requerido. y debe ser de 9 digitos");
         }
         if (email == null || !email.contains("@")) {
-            errores.put("nivel-estudios", "El email es requerido.");
+            errores.put("email", "El email es requerido.");
         }
         if (direccionDomicilio == null || direccionDomicilio.isBlank()) {
-            errores.put("nivel-estudios", "La direccion es requerida.");
+            errores.put("direccion-domicilio", "La direccion es requerida.");
         }
 
         if (errores.isEmpty()) {
