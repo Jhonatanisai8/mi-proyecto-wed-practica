@@ -1,5 +1,10 @@
+<%@page import="java.util.Arrays"%>
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+
 <!DOCTYPE html>
 <%Map<String, String> errores = (Map<String, String>) request.getAttribute("errores");%>
 <html lang="es">
@@ -13,11 +18,11 @@
         <div class="container mt-5">
             <h1 class="text-center mb-4">Formulario de Registro de Datos</h1>
 
-            <form action="/Mi-app-wed/registroDatos" class="row g-3 needs-validation" method="post" novalidate>
+            <form action="/Mi-app-wed/registroDatos" class="row g-3 needs-validation" method="post">
                 <!-- Nombre -->
                 <div class="col-md-6">
-                    <label for="nombre-usuario" class="form-label">Nombre Completo:</label>
-                    <input type="text" name="nombre-usuario" id="nombre-usuario" class="form-control" placeholder="Ingrese sus Nombres.">
+                    <label for="nombreusuario" class="form-label">Nombre Completo:</label>
+                    <input type="text" name="nombreusuario" id="nombreusuario" class="form-control" value="${param.nombreusuario}" placeholder="Ingrese sus Nombres.">
                     <%
                         if (errores != null && errores.containsKey("nombre-usuario")) {
                     %>
@@ -27,8 +32,8 @@
 
                 <!-- Apellidos -->
                 <div class="col-md-6">
-                    <label for="apellidos-usuario" class="form-label">Apellidos:</label>
-                    <input type="text" name="apellidos-usuario" id="apellidos-usuario" class="form-control" placeholder="Ingrese sus Apellidos.">
+                    <label for="apellidosusuario" class="form-label">Apellidos:</label>
+                    <input type="text" name="apellidosusuario" id="apellidosusuario" class="form-control" value="${param.apellidosusuario}" placeholder="Ingrese sus Apellidos.">
                     <%
                         if (errores != null && errores.containsKey("apellidos-usuario")) {
                     %>
@@ -38,8 +43,8 @@
 
                 <!-- Fecha de Nacimiento -->
                 <div class="col-md-6">
-                    <label for="fecha-nacimiento" class="form-label">Fecha de Nacimiento:</label>
-                    <input type="date" name="fecha-nacimiento" id="fecha-nacimiento" class="form-control">
+                    <label for="fechanacimiento" class="form-label">Fecha de Nacimiento:</label>
+                    <input type="date" name="fechanacimiento" id="fechanacimiento" class="form-control" value="${param.fechanacimiento}">
                     <%
                         if (errores != null && errores.containsKey("fecha-nacimiento")) {
                     %>
@@ -49,14 +54,14 @@
 
                 <!-- Lugar de Nacimiento -->
                 <div class="col-md-6">
-                    <label for="lugar-nacimiento" class="form-label">Lugar de Nacimiento:</label>
-                    <select name="lugar-nacimiento" id="lugar-nacimiento" class="form-select">
+                    <label for="lugarnacimiento" class="form-label">Lugar de Nacimiento:</label>
+                    <select name="lugarnacimiento" id="lugarnacimiento" class="form-select">
                         <option value="">--SELECCIONAR--</option>
-                        <option value="Piura">Piura</option>
-                        <option value="Lima">Lima</option>
-                        <option value="Arequipa">Arequipa</option>
-                        <option value="Cuzco">Cuzco</option>
-                        <option value="Otro">Otro</option>
+                        <option value="Piura"  ${param.lugarnacimiento == 'Piura' ? 'selected' : ''}>Piura</option>
+                        <option value="Lima"  ${param.lugarnacimiento == 'Lima' ? 'selected' : ''}>Lima</option>
+                        <option value="Arequipa"  ${param.lugarnacimiento == 'Arequipa' ? 'selected' : ''}>Arequipa</option>
+                        <option value="Cuzco"  ${param.lugarnacimiento == 'Cuzco' ? 'selected' : ''}>Cuzco</option>
+                        <option value="Otro"  ${param.lugarnacimiento == 'Otro' ? 'selected' : ''}>Otro</option>
                     </select>
                     <%
                         if (errores != null && errores.containsKey("lugar-nacimiento")) {
@@ -69,11 +74,11 @@
                 <div class="col-md-6">
                     <label class="form-label">Género:</label>
                     <div class="form-check">
-                        <input type="radio" name="genero" value="M" class="form-check-input">
+                        <input type="radio" name="genero" value="M" class="form-check-input" ${param.genero == 'M' ? 'checked' : ''}>
                         <label class="form-check-label">Masculino</label>
                     </div>
                     <div class="form-check">
-                        <input type="radio" name="genero" value="F" class="form-check-input">
+                        <input type="radio" name="genero" value="F" class="form-check-input" ${param.genero == 'F' ? 'checked' : ''}>
                         <label class="form-check-label">Femenino</label>
                     </div>
                     <%
@@ -85,11 +90,11 @@
 
                 <!-- Estado Civil -->
                 <div class="col-md-6">
-                    <label for="estado-civil" class="form-label">Estado Civil:</label>
-                    <select name="estado-civil" id="estado-civil" class="form-select">
+                    <label for="estadocivil" class="form-label">Estado Civil:</label>
+                    <select name="estadocivil" id="estadocivil" class="form-select">
                         <option value="">--SELECCIONAR--</option>
-                        <option value="Casado">Casado</option>
-                        <option value="Soltero">Soltero</option>
+                        <option value="Casado" ${param.estadocivil == 'Casado' ? 'selected' : ''}>Casado</option>
+                        <option value="Soltero" ${param.estadocivil == 'Soltero' ? 'selected' : ''}>Soltero</option>
                     </select>
                     <%
                         if (errores != null && errores.containsKey("estado-civil")) {
@@ -101,29 +106,59 @@
                 <!-- Nivel de estudios -->
                 <div class="col-md-12">
                     <label class="form-label">Nivel de Estudios:</label>
+
+                    <!-- Nivel Primario -->
                     <div class="form-check">
-                        <input type="checkbox" name="nivel-estudios" value="Nivel Primario" class="form-check-input">
+                        <input type="checkbox" name="nivelestudios" value="Nivel Primario" 
+                               class="form-check-input" 
+                               <%
+                                   if (request.getParameterValues("nivelestudios") != null
+                                           && Arrays.asList(request.getParameterValues("nivelestudios")).contains("Nivel Primario")) {
+                                       out.print("checked");
+                                   }
+                               %>>
                         <label class="form-check-label">Nivel Primario</label>
                     </div>
+
+                    <!-- Nivel Secundario -->
                     <div class="form-check">
-                        <input type="checkbox" name="nivel-estudios" value="Nivel Secundario" class="form-check-input">
+                        <input type="checkbox" name="nivelestudios" value="Nivel Secundario" 
+                               class="form-check-input" 
+                               <%
+                                   if (request.getParameterValues("nivelestudios") != null
+                                           && Arrays.asList(request.getParameterValues("nivelestudios")).contains("Nivel Secundario")) {
+                                       out.print("checked");
+                                   }
+                               %>>
                         <label class="form-check-label">Nivel Secundario</label>
                     </div>
+
+                    <!-- Nivel Superior -->
                     <div class="form-check">
-                        <input type="checkbox" name="nivel-estudios" value="Nivel Superior" class="form-check-input">
+                        <input type="checkbox" name="nivelestudios" value="Nivel Superior" 
+                               class="form-check-input" 
+                               <%
+                                   if (request.getParameterValues("nivelestudios") != null
+                                           && Arrays.asList(request.getParameterValues("nivelestudios")).contains("Nivel Superior")) {
+                                       out.print("checked");
+                                   }
+                               %>>
                         <label class="form-check-label">Nivel Superior</label>
                     </div>
-                    <%
-                        if (errores != null && errores.containsKey("nivel-estudios")) {
-                    %>
-                    <div class="text-danger small"><%= errores.get("nivel-estudios")%></div>
+
+                    <!-- Mensaje de error -->
+                    <% if (request.getAttribute("errores") != null && ((Map<String, String>) request.getAttribute("errores")).containsKey("nivel-estudios")) {%>
+                    <div class="text-danger small">
+                        <%= ((Map<String, String>) request.getAttribute("errores")).get("nivel-estudios")%>
+                    </div>
                     <% } %>
                 </div>
+
 
                 <!-- Teléfono -->
                 <div class="col-md-6">
                     <label for="telefono" class="form-label">Teléfono:</label>
-                    <input type="tel" name="telefono" id="telefono" class="form-control" placeholder="Ingrese su numero de Telefono.">
+                    <input type="tel" name="telefono" id="telefono" class="form-control" placeholder="Ingrese su numero de Telefono." value="${param.telefono}">
                     <%
                         if (errores != null && errores.containsKey("telefono")) {
                     %>
@@ -134,7 +169,7 @@
                 <!-- Email -->
                 <div class="col-md-6">
                     <label for="email" class="form-label">Email Personal:</label>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Ingrese su Email Personal.">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Ingrese su Email Personal." value="${param.email}">
                     <%
                         if (errores != null && errores.containsKey("email")) {
                     %>
@@ -144,9 +179,9 @@
 
                 <!-- Dirección -->
                 <div class="col-md-8 mx-auto">
-                    <label for="direccion-domicilio" class="form-label">Dirección de Domicilio:</label>
-                    <input type="text" name="direccion-domicilio" id="direccion-domicilio" 
-                           class="form-control" placeholder="Ingrese su dirección">
+                    <label for="direcciondomicilio" class="form-label">Dirección de Domicilio:</label>
+                    <input type="text" name="direcciondomicilio" id="direcciondomicilio" 
+                           class="form-control" placeholder="Ingrese su dirección" value="${param.direcciondomicilio}">
                     <% if (errores != null && errores.containsKey("direccion-domicilio")) {%>
                     <div class="text-danger small mt-1"><%= errores.get("direccion-domicilio")%></div>
                     <% }%>
